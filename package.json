@@ -1,0 +1,29 @@
+{
+  "name": "devcamp-api-express",
+  "version": "1.0.0",
+  "description": "API REST en express JS",
+  "main": "index.js",
+  "scripts": {
+    "start" : "NODE_ENV=production node server",
+    "dev" : "nodemon server"
+    
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Elshaman/devcamp-api-express.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Elshaman/devcamp-api-express/issues"
+  },
+  "homepage": "https://github.com/Elshaman/devcamp-api-express#readme",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
