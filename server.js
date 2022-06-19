@@ -13,7 +13,12 @@ const PORT = process.env.PORT
 
 //5. primera ruta:
 app.get('/', (req, res) => {
-    res.json( { 'message' : 'Hello from express' })
+    //6. enviando respuesta json con codigo http/rest de exito
+    res.status(200).json(
+         { 
+             'success' : true,
+             'id' : 1,
+             'data' : 'representative' })
 })
 
 //4. ejecutar servidor
