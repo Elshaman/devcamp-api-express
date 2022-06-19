@@ -11,5 +11,10 @@ const app = express();
 const PORT = process.env.PORT
 //console.log(PORT)
 
+//5. primera ruta:
+app.get('/', (req, res) => {
+    res.json( { 'message' : 'Hello from express' })
+})
+
 //4. ejecutar servidor
 app.listen(PORT , console.log(`Ejecutando servidor en ${PORT}`))
