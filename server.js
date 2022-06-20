@@ -11,15 +11,42 @@ const app = express();
 const PORT = process.env.PORT
 //console.log(PORT)
 
-//5. primera ruta:
-app.get('/', (req, res) => {
-    //6. enviando respuesta json con codigo http/rest de exito
-    res.status(200).json(
+//7. crear rutas rest para los bootcamps:
+app.get('/api/v1/bootcamps', (req, res) => {
+        res.status(200).json(
          { 
              'success' : true,
-             'id' : 1,
-             'data' : 'representative' })
+             'msg' : `mostrar todos los bootcamps` })
 })
+
+app.get('/api/v1/bootcamps/:id', (req, res) => {
+    res.status(200).json(
+     { 
+         'success' : true,
+         'msg' : `mostrar el  bootcamp con id: ${req.params.id}`  })
+})
+
+app.post('/api/v1/bootcamps', (req, res)=> {
+    res.status(200).json(
+        { 
+            'success' : true,
+            'msg' : 'crear bootcamp' })
+})
+
+app.put('/api/v1/bootcamps/:id', (req, res)=> {
+    res.status(200).json(
+        { 
+            'success' : true,
+            'msg' : `actualizar bootcamp con id: ${req.params.id} ` })
+})
+
+app.delete('/api/v1/bootcamps/:id', (req, res)=> {
+    res.status(200).json(
+        { 
+            'success' : true,
+            'msg' : `eliminar bootcamp con id: ${req.params.id} ` })
+})
+
 
 //4. ejecutar servidor
 app.listen(PORT , console.log(`Ejecutando servidor en ${PORT}`))
