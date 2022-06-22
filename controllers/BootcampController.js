@@ -6,8 +6,7 @@ exports.getBootcamps = (req, res, next ) =>{
         { 
             'success' : true,
             'msg' : `mostrar todos los bootcamps`,
-            //17 accedemos a la variable definida en el metodo middleware
-            hello: req.hello
+            'hello': req.hello
         })
 }
 
