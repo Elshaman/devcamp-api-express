@@ -1,42 +1,21 @@
-//9. de nuevo añadir la dependencia a express
 const express = require('express')
+//13. dependencia a controladores
+const {getBootcamp , 
+       getBootcamps , 
+       updateBootcamp , 
+       createBootcamp , 
+       deleteBootcamp} = require('../controllers/BootcampController')
+
 const router = express.Router()
 
-//8. separar las rutas en un archivo separado y refactorarlas :
-router.get('/', (req, res) => {
-    res.status(200).json(
-     { 
-         'success' : true,
-         'msg' : `mostrar todos los bootcamps` })
-})
+//14. establecer rutas de controlador 
+router.route('/').get(getBootcamps)
+                 .post(createBootcamp)
 
-router.get('/:id', (req, res) => {
-res.status(200).json(
- { 
-     'success' : true,
-     'msg' : `mostrar el  bootcamp con id: ${req.params.id}`  })
-})
-
-router.post('/', (req, res)=> {
-res.status(200).json(
-    { 
-        'success' : true,
-        'msg' : 'crear bootcamp' })
-})
-
-router.put('/:id', (req, res)=> {
-res.status(200).json(
-    { 
-        'success' : true,
-        'msg' : `actualizar bootcamp con id: ${req.params.id} ` })
-})
-
-router.delete('/:id', (req, res)=> {
-res.status(200).json(
-    { 
-        'success' : true,
-        'msg' : `eliminar bootcamp con id: ${req.params.id} ` })
-})
-
+router.route('/:id').get(getBootcamp)
+                 .put(updateBootcamp)
+                 .delete(deleteBootcamp)
+            
+                     
 module.exports = router
 
