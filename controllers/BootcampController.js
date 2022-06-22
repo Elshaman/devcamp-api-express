@@ -1,5 +1,3 @@
-//12. crear controlador para cada uno de los metodos de REST
-
 //@desc  Get all bootcamps
 //@route GET /api/v1/bootcamps
 //@access public
@@ -7,7 +5,9 @@ exports.getBootcamps = (req, res, next ) =>{
     res.status(200).json(
         { 
             'success' : true,
-            'msg' : `mostrar todos los bootcamps`
+            'msg' : `mostrar todos los bootcamps`,
+            //17 accedemos a la variable definida en el metodo middleware
+            hello: req.hello
         })
 }
 
