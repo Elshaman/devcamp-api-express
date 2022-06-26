@@ -1,13 +1,18 @@
 const express = require('express')
 const dotenv = require('dotenv')
-//20. incluimos el middleware logger
 const logger = require('./middleware/logger')
+const connectDB = require('./config/db')
 
-
-const bootcamps = require('./routes/bootcamps')
 
 dotenv.config({path: './config/config.env'})
+//22. nos conectamos a la base de datos
+
+connectDB();
+
+const bootcamps = require('./routes/bootcamps')
 const app = express();
+
+
 
 
 
@@ -16,4 +21,14 @@ app.use('/api/v1/bootcamps', bootcamps)
 
 
 const PORT = process.env.PORT
-app.listen(PORT , console.log(`Ejecutando servidor en ${PORT}`))
+
+//23. reformateamos el listen
+const server = app.listen(PORT , 
+                          console.log(`Ejecutando servidor en ${PORT}`)
+                         )
+
+                         //24. funcion para controlar excepciones de servidor
+process.on('unhandledRejection' , (err , promise)=>{
+    console.log(`Error: ${err.message}`)
+    server.close(()=>process.exit(1))
+})
