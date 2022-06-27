@@ -1,5 +1,5 @@
 //26 dependencia al modelo
-const BootcampModel = require('../models/BootcampModel')
+const Bootcamp = require('../models/Bootcamp')
 
 
 //@desc  Get all bootcamps
@@ -28,15 +28,13 @@ exports.getBootcamp = (req, res, next ) =>{
 //@desc  create new bootcamp
 //@route POST /api/v1/bootcamps
 //@access private
-exports.createBootcamp = (req, res, next ) =>{ 
-    //27 realizar pruebas del body de request
-    // se debe, en postman, en "Headers" crear el preset "Content-Type" de tipo "application/json"
-    // y hacer un body "raw" en postman, seguir xomo guia el bootcamp que hay el _data
-    console.log(req.body)
-    res.status(200).json(
+exports.createBootcamp = async(req, res, next ) =>{ 
+   //29 crear el bootcamp utilizando el modelo, el codigo http es 201
+    const newBootcamp = await Bootcamp.create(req.body)
+    res.status(201).json(
         { 
-            'success' : true,
-            'msg' : 'crear bootcamp' })
+            success : true,
+            data : newBootcamp })
 }
 
 
