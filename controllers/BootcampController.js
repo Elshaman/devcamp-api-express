@@ -12,7 +12,8 @@ exports.getBootcamps = async(req, res, next ) =>{
         res.status(200).json(
             { 
                 success : true,
-                data: bootcamps
+                data: bootcamps,
+                count: bootcamps.length
             })
     } catch (error) {
         res.status(400).json({success: false})
@@ -20,6 +21,7 @@ exports.getBootcamps = async(req, res, next ) =>{
    
 }
 
+//32 traer detalle de bootcamp
 //@desc  Get single bootcamp
 //@route GET /api/v1/bootcamps/:id
 //@access public
@@ -36,6 +38,7 @@ exports.getBootcamp = async(req, res, next ) =>{
         res.status(400).json({success: false})
     } 
 }
+
 
 
 //@desc  create new bootcamp
@@ -57,26 +60,53 @@ exports.createBootcamp = async(req, res, next ) =>{
     
 }
 
-
+//34 traer actualizacion de bootcamp
 //@desc  update  bootcamp
 //@route PUT /api/v1/bootcamps/:id
 //@access private
-exports.updateBootcamp = (req, res, next ) =>{ 
-    res.status(200).json(
-        { 
-            'success' : true,
-            'msg' : `actualizar bootcamp con id: ${req.params.id} ` })
+exports.updateBootcamp = async  (req, res, next ) =>{ 
+    try {
+        const bootcamp = await Bootcamp.findByIdAndUpdate(req.params.id , req.body, {
+            new:true,
+            runValidators: true
+        })
+        if(!bootcamp){
+            res.status(400).json({success: false})
+        }
+        res.status(200).json(
+            { 
+                success : true,
+                data: bootcamp
+            })
+    } catch (error) {
+        if(!bootcamp){
+            res.status(400).json({success: false})
+        }
+    }
+    
+  
 }
 
-
+//35 borrar bootcamp
 //@desc  delete  bootcamp
 //@route DELETE /api/v1/bootcamps/:id
 //@access private
-exports.deleteBootcamp = (req, res, next ) =>{ 
-    res.status(200).json(
-        { 
-            'success' : true,
-            'msg' : `eliminar bootcamp con id: ${req.params.id} ` })
+exports.deleteBootcamp = async(req, res, next ) =>{ 
+    try {
+        const bootcamp = await Bootcamp.findByIdAndDelete(req.params.id)
+        if(!bootcamp){
+            res.status(400).json({success: false})
+        }
+        res.status(200).json(
+            { 
+                success : true,
+                data: {}
+            })
+    } catch (error) {
+        if(!bootcamp){
+            res.status(400).json({success: false})
+        }
+    }
 }
 
 
