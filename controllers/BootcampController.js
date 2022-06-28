@@ -1,27 +1,40 @@
 //26 dependencia al modelo
 const Bootcamp = require('../models/Bootcamp')
 
-
+//31 endpoint para traer todos los bootcamps
 //@desc  Get all bootcamps
 //@route GET /api/v1/bootcamps
 //@access public
-exports.getBootcamps = (req, res, next ) =>{ 
-    res.status(200).json(
-        { 
-            'success' : true,
-            'msg' : `mostrar todos los bootcamps`,
-            'hello': req.hello
-        })
+exports.getBootcamps = async(req, res, next ) =>{
+    try {
+        const bootcamps = await Bootcamp.find()
+        //el codigo para traer todas las rutas es 200
+        res.status(200).json(
+            { 
+                success : true,
+                data: bootcamps
+            })
+    } catch (error) {
+        res.status(400).json({success: false})
+    } 
+   
 }
 
 //@desc  Get single bootcamp
 //@route GET /api/v1/bootcamps/:id
 //@access public
-exports.getBootcamp = (req, res, next ) =>{ 
-    res.status(200).json(
-        { 
-            'success' : true,
-            'msg' : `mostrar el  bootcamp con id: ${req.params.id}`  })
+exports.getBootcamp = async(req, res, next ) =>{ 
+    try {
+        const bootcamp = await Bootcamp.findById(req.params.id)
+        //el codigo para traer todas las rutas es 200
+        res.status(200).json(
+            { 
+                success : true,
+                data: bootcamp
+            })
+    } catch (error) {
+        res.status(400).json({success: false})
+    } 
 }
 
 
@@ -29,12 +42,19 @@ exports.getBootcamp = (req, res, next ) =>{
 //@route POST /api/v1/bootcamps
 //@access private
 exports.createBootcamp = async(req, res, next ) =>{ 
-   //29 crear el bootcamp utilizando el modelo, el codigo http es 201
-    const newBootcamp = await Bootcamp.create(req.body)
-    res.status(201).json(
+   //30 crear el bootcamp utilizando try catch
+   try {
+        const newBootcamp = await Bootcamp.create(req.body)
+        res.status(201).json(
         { 
             success : true,
-            data : newBootcamp })
+            data : newBootcamp
+         })
+   } catch (error) {
+        //400: bad request
+        res.status(400).json({success: false})
+   }
+    
 }
 
 
