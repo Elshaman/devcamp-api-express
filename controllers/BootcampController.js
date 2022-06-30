@@ -1,5 +1,7 @@
 //26 dependencia al modelo
 const Bootcamp = require('../models/Bootcamp')
+const ErrorResponse = require('../utils/ErrorResponse')
+
 
 //31 endpoint para traer todos los bootcamps
 //@desc  Get all bootcamps
@@ -36,7 +38,8 @@ exports.getBootcamp = async(req, res, next ) =>{
             })
     } catch (error) {
         //res.status(400).json({success: false})
-        next(error)
+        //39 creamos un custom error con la clase de error
+        next(new ErrorResponse(`Bootcamp con id ${req.params.id} no encontrado` , 404))
     } 
 }
 
