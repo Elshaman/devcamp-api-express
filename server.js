@@ -3,6 +3,7 @@ const dotenv = require('dotenv')
 const logger = require('./middleware/logger')
 const connectDB = require('./config/db')
 const colors = require('colors')
+const errorHandler = require('./middleware/errors')
 
 
 dotenv.config({path: './config/config.env'})
@@ -11,6 +12,10 @@ dotenv.config({path: './config/config.env'})
 connectDB();
 
 const bootcamps = require('./routes/bootcamps')
+
+//37 usar el errorHandler
+
+
 const app = express();
 
 
@@ -19,7 +24,7 @@ app.use(express.json())
 
 app.use(logger)
 app.use('/api/v1/bootcamps', bootcamps)
-
+app.use(errorHandler)
 
 const PORT = process.env.PORT
 
