@@ -1,9 +1,22 @@
-//36 agregar custom error Handler
+const ErrorResponse = require("../utils/ErrorResponse");
+
+
 const errorHandler  = (err , req , res , next) => {
+
+    let error = {...err}
+    error.message = err.message
+
     console.log(err.stack.red);
-    res.status(err.statusCode || 500).json({
+    
+    //41 creamos el objeto error: el id se extrae en el parametrovalue
+    if(err.name === 'CastError'){
+        const message = `Bootcamp not found with id ${err.value}`
+        error = new ErrorResponse(message,404)
+    }
+
+    res.status(error.statusCode || 500).json({
         success: false,
-        error: err.message || 'Server Error'
+        error: error.message || 'Server Error'
     })
 }
 

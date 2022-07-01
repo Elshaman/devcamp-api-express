@@ -18,7 +18,8 @@ exports.getBootcamps = async(req, res, next ) =>{
                 count: bootcamps.length
             })
     } catch (error) {
-        res.status(400).json({success: false})
+         //42 lo replicamos en todos los endpoints
+         next(error)
     } 
    
 }
@@ -38,8 +39,8 @@ exports.getBootcamp = async(req, res, next ) =>{
             })
     } catch (error) {
         //res.status(400).json({success: false})
-        //39 creamos un custom error con la clase de error
-        next(new ErrorResponse(`Bootcamp con id ${req.params.id} no encontrado` , 404))
+        //40  error con el error por defecto
+        next(error)
     } 
 }
 
@@ -59,7 +60,8 @@ exports.createBootcamp = async(req, res, next ) =>{
          })
    } catch (error) {
         //400: bad request
-        res.status(400).json({success: false})
+         //40  error con el error por defecto
+         next(error)
    }
     
 }
@@ -83,9 +85,10 @@ exports.updateBootcamp = async  (req, res, next ) =>{
                 data: bootcamp
             })
     } catch (error) {
-        if(!bootcamp){
-            res.status(400).json({success: false})
-        }
+       
+              //40  error con el error por defecto
+        next(error)
+        
     }
     
   
@@ -107,9 +110,8 @@ exports.deleteBootcamp = async(req, res, next ) =>{
                 data: {}
             })
     } catch (error) {
-        if(!bootcamp){
-            res.status(400).json({success: false})
-        }
+         //40  error con el error por defecto
+         next(error)
     }
 }
 
