@@ -13,7 +13,7 @@ connectDB();
 
 const bootcamps = require('./routes/bootcamps')
 
-//37 usar el errorHandler
+
 
 
 const app = express();

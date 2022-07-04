@@ -1,14 +1,15 @@
-//26 dependencia al modelo
+
 const Bootcamp = require('../models/Bootcamp')
 const ErrorResponse = require('../utils/ErrorResponse')
+const asyncHandler = require('../middleware/async')
 
+//45 reescribimos la accion de controlador sin try catch, utilizando asyncHandler
 
-//31 endpoint para traer todos los bootcamps
 //@desc  Get all bootcamps
 //@route GET /api/v1/bootcamps
 //@access public
-exports.getBootcamps = async(req, res, next ) =>{
-    try {
+exports.getBootcamps = asyncHandler(async(req, res, next ) =>{
+    
         const bootcamps = await Bootcamp.find()
         //el codigo para traer todas las rutas es 200
         res.status(200).json(
@@ -17,14 +18,10 @@ exports.getBootcamps = async(req, res, next ) =>{
                 data: bootcamps,
                 count: bootcamps.length
             })
-    } catch (error) {
-         //42 lo replicamos en todos los endpoints
-         next(error)
-    } 
-   
-}
+    
+    })
 
-//32 traer detalle de bootcamp
+
 //@desc  Get single bootcamp
 //@route GET /api/v1/bootcamps/:id
 //@access public
@@ -39,7 +36,7 @@ exports.getBootcamp = async(req, res, next ) =>{
             })
     } catch (error) {
         //res.status(400).json({success: false})
-        //40  error con el error por defecto
+       
         next(error)
     } 
 }
@@ -66,7 +63,7 @@ exports.createBootcamp = async(req, res, next ) =>{
     
 }
 
-//34 traer actualizacion de bootcamp
+
 //@desc  update  bootcamp
 //@route PUT /api/v1/bootcamps/:id
 //@access private
@@ -94,7 +91,7 @@ exports.updateBootcamp = async  (req, res, next ) =>{
   
 }
 
-//35 borrar bootcamp
+
 //@desc  delete  bootcamp
 //@route DELETE /api/v1/bootcamps/:id
 //@access private

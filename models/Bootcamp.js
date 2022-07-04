@@ -1,5 +1,5 @@
-
 const mongoose = require('mongoose')
+const slugify = require('slugify')
 
 const BootcampSchema = new mongoose.Schema({
     name:{
@@ -98,6 +98,16 @@ const BootcampSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
+})
+
+//46 crear un middleware post accion
+//para cuando seregistre nombre del botcamp
+//se crea la url - similar a un trigger en bd
+//utilizamos slugify
+
+BootcampSchema.pre('save', function(next){
+    this.slug = slugify(this.name , { lower : true })
+    next()
 })
 
 module.exports=mongoose.model('Bootcamp' , BootcampSchema)
