@@ -2,6 +2,7 @@
 const Bootcamp = require('../models/Bootcamp')
 const ErrorResponse = require('../utils/ErrorResponse')
 const asyncHandler = require('../middleware/async')
+const geocoder = require('../utils/geocoder')
 
 //45 reescribimos la accion de controlador sin try catch, utilizando asyncHandler
 
@@ -9,8 +10,12 @@ const asyncHandler = require('../middleware/async')
 //@route GET /api/v1/bootcamps
 //@access public
 exports.getBootcamps = asyncHandler(async(req, res, next ) =>{
-    
-        const bootcamps = await Bootcamp.find()
+
+
+        //51 captura de parametro de querystring y utilizarlos para filtro
+        console.log(req.query)
+
+        const bootcamps = await Bootcamp.find(req.query)
         //el codigo para traer todas las rutas es 200
         res.status(200).json(
             { 
@@ -20,6 +25,37 @@ exports.getBootcamps = asyncHandler(async(req, res, next ) =>{
             })
     
     })
+
+    //50 crear la ruta para seleccionar bootcamps cercanos por zipcode y distancia
+ //@desc Get botocamps in a radius
+ //@route GET /api/v1/bootcamps/radius/:zipcode/:distance
+ //@access private
+ exports.getBootcampsInRadius = asyncHandler(async(req,res,next) => { 
+    const {zipcode, distance} = req.params
+
+    //obtener longitud y latitud
+    const loc = await geocoder.geocode(zipcode)
+    const lat = loc[0].latitude
+    const lng = loc[0].longitude
+
+    //calculo del radio utilizando radianes
+    //dividir la distancia  por el radio terrestre
+    // radio de la tierra =  3,963 millas / 6,378 km 
+    const radius = distance / 3963
+
+    const bootcamps = await Bootcamp.find({
+        location: { $geoWithin:{ $centerSphere:[[lng, lat] , radius]}}
+    })
+
+    res.status(200).json({
+        success: true,
+        count: bootcamps.length,
+        data: bootcamps
+    })
+
+
+ })
+ 
 
 
 //@desc  Get single bootcamp
