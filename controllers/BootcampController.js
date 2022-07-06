@@ -11,11 +11,16 @@ const geocoder = require('../utils/geocoder')
 //@access public
 exports.getBootcamps = asyncHandler(async(req, res, next ) =>{
 
+        //52 metodo para hacer busquedas por mayor que a treves de query string
+        let query
+        
+        let queryStr = JSON.stringify(req.query)
 
-        //51 captura de parametro de querystring y utilizarlos para filtro
-        console.log(req.query)
+        queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`)
 
-        const bootcamps = await Bootcamp.find(req.query)
+        query = Bootcamp.find(JSON.parse(queryStr))
+
+        const bootcamps = await query
         //el codigo para traer todas las rutas es 200
         res.status(200).json(
             { 
