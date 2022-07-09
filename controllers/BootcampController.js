@@ -11,13 +11,13 @@ const geocoder = require('../utils/geocoder')
 //@access public
 exports.getBootcamps = asyncHandler(async(req, res, next ) =>{
 
-        //53 metodo para hacer consulta con select
+        //53 metodo para hacer consulta con select y ordenamiento con moongoose
         let query
         //copy req.query
         let reqQuery = {...req.query}
 
         //campos a excluir
-        const removeFields = ['select']
+        const removeFields = ['select' , 'sort']
 
         //recorrer los campos a excluir y borrarlos de la querystring
         removeFields.forEach(param => delete reqQuery[param])
@@ -29,9 +29,18 @@ exports.getBootcamps = asyncHandler(async(req, res, next ) =>{
 
         query = Bootcamp.find(JSON.parse(queryStr))
 
+        //select
         if(req.query.select){
             const fields = req.query.select.split(',').join( ' ')
-            console.log(fields)
+            query = query.select(fields)
+        }
+
+        //sort
+        if(req.query.sort){
+            const sortBy = req.query.sort.split(',').join( ' ')
+            query = query.sort(sortBy)
+        }else{
+            query = query.sort('-createdAt')
         }
 
         const bootcamps = await query
