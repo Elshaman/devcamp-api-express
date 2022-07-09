@@ -1,3 +1,5 @@
+// 55 creamos el modelo de cursos
+
 const mongoose = require('mongoose')
 
 const CourseSchema = new mongoose.Schema({

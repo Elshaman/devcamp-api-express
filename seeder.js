@@ -4,10 +4,10 @@ const colors = require('colors')
 const dotenv = require('dotenv')
 
 
-//49 hacer el seeder de bd 
+
 dotenv.config({path : './config/config.env'})
 
-//cargar modelos
+//56 ahora involucramos en el seeder el modelo de cursos
 const Bootcamp = require('./models/Bootcamp')
 const Course = require('./models/Course')
 
