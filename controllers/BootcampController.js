@@ -11,15 +11,14 @@ const geocoder = require('../utils/geocoder')
 //@access public
 exports.getBootcamps = asyncHandler(async(req, res, next ) =>{
 
-        //53 metodo para hacer consulta con select y ordenamiento con moongoose
+       
         let query
-        //copy req.query
+        
         let reqQuery = {...req.query}
 
-        //campos a excluir
-        const removeFields = ['select' , 'sort']
+        //54 paginacion
+        const removeFields = ['select' , 'sort', 'page' , 'limit']
 
-        //recorrer los campos a excluir y borrarlos de la querystring
         removeFields.forEach(param => delete reqQuery[param])
 
         let queryStr = JSON.stringify(reqQuery)
@@ -42,6 +41,13 @@ exports.getBootcamps = asyncHandler(async(req, res, next ) =>{
         }else{
             query = query.sort('-createdAt')
         }
+
+        //pagination
+        const page= parseInt(req.query.page , 10) || 1
+        const limit = parseInt(req.query.limit , 10) || 100
+        const skip = (page - 1) * limit
+
+        query = query.skip(skip).limit(limit) 
 
         const bootcamps = await query
         //el codigo para traer todas las rutas es 200
