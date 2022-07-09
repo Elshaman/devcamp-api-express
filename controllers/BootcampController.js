@@ -11,14 +11,28 @@ const geocoder = require('../utils/geocoder')
 //@access public
 exports.getBootcamps = asyncHandler(async(req, res, next ) =>{
 
-        //52 metodo para hacer busquedas por mayor que a treves de query string
+        //53 metodo para hacer consulta con select
         let query
-        
-        let queryStr = JSON.stringify(req.query)
+        //copy req.query
+        let reqQuery = {...req.query}
 
+        //campos a excluir
+        const removeFields = ['select']
+
+        //recorrer los campos a excluir y borrarlos de la querystring
+        removeFields.forEach(param => delete reqQuery[param])
+
+        let queryStr = JSON.stringify(reqQuery)
+
+        //crear operadores ($gt , $gte , etc)
         queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`)
 
         query = Bootcamp.find(JSON.parse(queryStr))
+
+        if(req.query.select){
+            const fields = req.query.select.split(',').join( ' ')
+            console.log(fields)
+        }
 
         const bootcamps = await query
         //el codigo para traer todas las rutas es 200
@@ -31,10 +45,7 @@ exports.getBootcamps = asyncHandler(async(req, res, next ) =>{
     
     })
 
-    //50 crear la ruta para seleccionar bootcamps cercanos por zipcode y distancia
- //@desc Get botocamps in a radius
- //@route GET /api/v1/bootcamps/radius/:zipcode/:distance
- //@access private
+   
  exports.getBootcampsInRadius = asyncHandler(async(req,res,next) => { 
     const {zipcode, distance} = req.params
 
