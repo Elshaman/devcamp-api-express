@@ -99,6 +99,14 @@ const BootcampSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
+}, {
+    //62 utilizacion de virtuales
+    toJSON: {
+        virtuals: true
+    },
+    toObject:{
+        virtuals: true
+    }
 })
 
 //46 crear un middleware post accion
@@ -128,5 +136,20 @@ BootcampSchema.pre('save', async function(next){
     next()
 })
 
+//64 cascadedelete courses  when a bootcamp is deleted
+BootcampSchema.pre('remove' , async function(next){
+    console.log(`Courses being removed from bootcamp ${this._id}`)
+    await this.model('Course').deleteMany({ bootcamp: this._id})
+    next()
+})
+
+//62 reverse populate con virtuals
+BootcampSchema.virtual('courses', 
+{
+    ref: 'Course',
+    localField: '_id',
+    foreignField: 'bootcamp',
+    justOne: false
+})
 
 module.exports=mongoose.model('Bootcamp' , BootcampSchema)

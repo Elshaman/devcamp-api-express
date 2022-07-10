@@ -16,7 +16,6 @@ exports.getBootcamps = asyncHandler(async(req, res, next ) =>{
         
         let reqQuery = {...req.query}
 
-        //54 paginacion
         const removeFields = ['select' , 'sort', 'page' , 'limit']
 
         removeFields.forEach(param => delete reqQuery[param])
@@ -26,7 +25,8 @@ exports.getBootcamps = asyncHandler(async(req, res, next ) =>{
         //crear operadores ($gt , $gte , etc)
         queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`)
 
-        query = Bootcamp.find(JSON.parse(queryStr))
+        //63 agregamos poplate a los bootcamps ´para que traiga el campo virtual de curso
+        query = Bootcamp.find(JSON.parse(queryStr)).populate('courses')
 
         //select
         if(req.query.select){
@@ -187,10 +187,15 @@ exports.updateBootcamp = async  (req, res, next ) =>{
 //@access private
 exports.deleteBootcamp = async(req, res, next ) =>{ 
     try {
-        const bootcamp = await Bootcamp.findByIdAndDelete(req.params.id)
+
+        //65 el pre de borrado en cascada no funciona con findByIdAndDelete
+        //   por lo que hay que modificar esta accion
+        const bootcamp = await Bootcamp.findById(req.params.id)
         if(!bootcamp){
             res.status(400).json({success: false})
         }
+
+        bootcamp.remove()
         res.status(200).json(
             { 
                 success : true,

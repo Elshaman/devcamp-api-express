@@ -29,3 +29,6 @@ exports.getCourses = asyncHandler(async(req, res, next) => {
         data: courses
     })
 })
+
+
+
