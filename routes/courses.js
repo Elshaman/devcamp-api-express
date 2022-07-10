@@ -4,7 +4,7 @@ const {
 } = require('../controllers/CourseController')
 
 
-const router = express.Router()
+const router = express.Router({mergeParams:true})
 //57 creamos la ruta para la accion creada
 router.route('/').get(getCourses)
 

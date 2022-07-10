@@ -7,9 +7,16 @@ const {getBootcamp ,
        deleteBootcamp,
        getBootcampsInRadius} = require('../controllers/BootcampController')
 
+
+//60 incluimos otros router
+const courseRouter = require('./courses')
+
+
 const router = express.Router()
 
-//50. crear la ruta para seleccion de bootcamps en un radio
+//61 redirigimos al router de curso
+router.use('/:bootcampId/courses' , courseRouter)
+
 router.route('/radius/:zipcode/:distance').get(getBootcampsInRadius)
 
 
