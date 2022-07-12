@@ -1,6 +1,6 @@
 const express = require('express')
 const {
-    getCourses, getCourse, addCourse
+    getCourses, getCourse, addCourse , updateCourse
 } = require('../controllers/CourseController')
 
 
@@ -9,6 +9,6 @@ const router = express.Router({mergeParams:true})
 router.route('/').get(getCourses).post(addCourse)
  
 //61 añadir la ruta del detalle del curso
-router.route('/:id').get(getCourse)
+router.route('/:id').get(getCourse).put(updateCourse)
 
 module.exports = router
