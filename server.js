@@ -1,3 +1,4 @@
+const path = require('path')
 const express = require('express')
 const dotenv = require('dotenv')
 const logger = require('./middleware/logger')
@@ -26,6 +27,9 @@ app.use(express.json())
 
 //66 montamos fileupload
 app.use(fileupload())
+
+//72 set static folder
+app.use(express.static(path.join(__dirname , 'public')))
 
 app.use(logger)
 //59 montamos las rutas de curso
