@@ -4,6 +4,7 @@ const logger = require('./middleware/logger')
 const connectDB = require('./config/db')
 const colors = require('colors')
 const errorHandler = require('./middleware/errors')
+const fileupload = require('express-fileupload')
 
 
 dotenv.config({path: './config/config.env'})
@@ -23,6 +24,8 @@ const app = express();
 
 app.use(express.json())
 
+//66 montamos fileupload
+app.use(fileupload())
 
 app.use(logger)
 //59 montamos las rutas de curso

@@ -209,6 +209,33 @@ exports.deleteBootcamp = async(req, res, next ) =>{
 
 
 
+//67 accion para cargar foto al bootstrap
+//@desc  upload photo for  bootcamp
+//@route PUT /api/v1/bootcamps/:id/photo
+//@access private
+exports.bootcampPhotoUpload = asyncHandler(async(req, res, next ) =>{ 
+       
+        const bootcamp = await Bootcamp.findById(req.params.id)
+        if(!bootcamp){
+           return next(
+            new ErrorResponse(`Bootcamp not found with id${req.params.id}` , 404)
+           )
+        }
+
+        if(!req.files){
+            return next(
+                new ErrorResponse(`Please upload a file` , 400)
+            )
+        }
+
+        console.log(req.files.file)
+
+       
+ 
+})
+
+
+
 
 
 

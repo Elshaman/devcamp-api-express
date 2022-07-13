@@ -5,7 +5,9 @@ const {getBootcamp ,
        updateBootcamp , 
        createBootcamp , 
        deleteBootcamp,
-       getBootcampsInRadius} = require('../controllers/BootcampController')
+       getBootcampsInRadius,
+       bootcampPhotoUpload
+} = require('../controllers/BootcampController')
 
 
 //60 incluimos otros router
@@ -26,6 +28,9 @@ router.route('/').get(getBootcamps)
 router.route('/:id').get(getBootcamp)
                  .put(updateBootcamp)
                  .delete(deleteBootcamp)
+
+                 //68 ruta de la accion de cargar photo
+router.route('/:id/photo').put(bootcampPhotoUpload)
             
                      
 module.exports = router
