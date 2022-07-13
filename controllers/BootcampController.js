@@ -237,7 +237,16 @@ exports.bootcampPhotoUpload = asyncHandler(async(req, res, next ) =>{
         }
 
 
-       
+       //69 VALIDAR TAMAÑO DE LA IMAGEN
+       if(file.size > process.env.MAX_UPLOAD_FILE){
+        return next(
+            new ErrorResponse(`Please upload an image less than ${process.env.MAX_UPLOAD_FILE}` , 400)
+        )
+       }
+
+       //70 crear el nombre del archivo
+       file.name = `photo_${bootcamp._id}`
+       console.log(file.name)
  
 })
 
