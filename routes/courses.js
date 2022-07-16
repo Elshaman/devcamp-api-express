@@ -3,12 +3,22 @@ const {
     getCourses, getCourse, addCourse , updateCourse, deleteCourse
 } = require('../controllers/CourseController')
 
+//75 hacemos el mismo uso del middleware para cursos
+const Course = require('../models/Course')
+const advancedResults= require('../middleware/advancedResults')
+
+
 
 const router = express.Router({mergeParams:true})
-//57 creamos la ruta para la accion creada
-router.route('/').get(getCourses).post(addCourse)
+
+router.route('/')
+            .get(advancedResults(Course , { 
+                path: 'bootcamp',
+                select: 'name description'
+            }), getCourses)
+            .post(addCourse)
  
-//61 añadir la ruta del detalle del curso
+
 router.route('/:id').get(getCourse).put(updateCourse).delete(deleteCourse)
 
 module.exports = router

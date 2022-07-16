@@ -2,6 +2,7 @@ const ErrorResponse = require('../utils/ErrorResponse')
 const asyncHandler = require('../middleware/async')
 const Course = require('../models/Course')
 const Bootcamp = require('../models/Bootcamp')
+const advancedResults = require('../middleware/advancedResults')
 
 //56 creamos las acciones de curso
 
@@ -11,24 +12,19 @@ const Bootcamp = require('../models/Bootcamp')
 //@route GET /api/v1/bootcamps/:bootcampId/courses
 
 exports.getCourses = asyncHandler(async(req, res, next) => {
-    let query
+    //let query
     if(req.params.bootcampId){
-        query = Course.find({bootcamp:req.params.bootcampId})
-    }else{
-        //61  incluir en el response otro recurso
-        query = Course.find().populate({
-            path: 'bootcamp',
-            select: 'name description'
-
+        const courses = await Course.find({bootcamp:req.params.bootcampId})
+        return res.status(200).json({
+            success:true,
+            count: courses.length,
+            data:courses
         })
+    }else{
+        res.status(200).json(res.advancedResults)
     }
-    const courses = await query
-
-    res.status(200).json({
-        success: true,
-        count: courses.length,
-        data: courses
-    })
+    
+   
 })
 
 
