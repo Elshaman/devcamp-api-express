@@ -15,7 +15,7 @@ exports.register = asyncHandler(async (req , res, next)=> {
     //83 extraemos en variables los datos del body
     const {name,email,password,role} = req.body
     
-    //create User 
+    // 84create User 
     const user = await User.create({
         name , email, password, role
     })
