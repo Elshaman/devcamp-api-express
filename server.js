@@ -14,8 +14,9 @@ dotenv.config({path: './config/config.env'})
 connectDB();
 
 const bootcamps = require('./routes/bootcamps')
-//58 añadimos las rutas de cursos
 const courses = require('./routes/courses')
+//81 montamos las rutas de autenticacion
+const auth = require('./routes/auth')
 
 
 
@@ -35,6 +36,8 @@ app.use(logger)
 //59 montamos las rutas de curso
 app.use('/api/v1/bootcamps', bootcamps)
 app.use('/api/v1/courses', courses)
+app.use('/api/v1/auth', auth)
+
 app.use(errorHandler)
 
 const PORT = process.env.PORT

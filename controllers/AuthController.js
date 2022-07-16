@@ -1,0 +1,15 @@
+//77 el controlador de autencticacion
+
+const ErrorResponse =require('../utils/ErrorResponse')
+const asyncHandler = require('../middleware/async')
+const User = require('../models/User')
+
+
+//78 metodo para crear usuarios
+//@desc Register user
+//@route GET /api/v1/auth/register
+//@access Public
+
+exports.register = asyncHandler(async (req , res, next)=> {
+    res.status(200).json({success: true})
+})
