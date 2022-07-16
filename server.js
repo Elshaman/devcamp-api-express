@@ -33,7 +33,7 @@ app.use(fileupload())
 app.use(express.static(path.join(__dirname , 'public')))
 
 app.use(logger)
-//59 montamos las rutas de curso
+//82 montamos las rutas de auth
 app.use('/api/v1/bootcamps', bootcamps)
 app.use('/api/v1/courses', courses)
 app.use('/api/v1/auth', auth)
