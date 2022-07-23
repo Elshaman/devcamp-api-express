@@ -52,4 +52,11 @@ UserSchema.methods.getSignedJwtToken = function (){
     })
 }
 
+//94 método para comparar el password ingresado con el encriptado
+UserSchema.methods.matchPassword = async function(enteredPassword){
+    return await bcrypt.compare(enteredPassword , this.password);
+    
+}
+
+
 module.exports = mongoose.model('User' , UserSchema)
