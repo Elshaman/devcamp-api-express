@@ -6,6 +6,8 @@ const connectDB = require('./config/db')
 const colors = require('colors')
 const errorHandler = require('./middleware/errors')
 const fileupload = require('express-fileupload')
+//95 dependencia a cookie parser
+const cookieParser = require('cookie-parser')
 
 
 dotenv.config({path: './config/config.env'})
@@ -15,7 +17,7 @@ connectDB();
 
 const bootcamps = require('./routes/bootcamps')
 const courses = require('./routes/courses')
-//81 montamos las rutas de autenticacion
+
 const auth = require('./routes/auth')
 
 
@@ -24,16 +26,20 @@ const auth = require('./routes/auth')
 const app = express();
 
 
-app.use(express.json())
 
-//66 montamos fileupload
+
+app.use(express.json())
+//96 cookie parser
+app.use(cookieParser())
+
+
 app.use(fileupload())
 
-//72 set static folder
+
 app.use(express.static(path.join(__dirname , 'public')))
 
 app.use(logger)
-//82 montamos las rutas de auth
+
 app.use('/api/v1/bootcamps', bootcamps)
 app.use('/api/v1/courses', courses)
 app.use('/api/v1/auth', auth)
